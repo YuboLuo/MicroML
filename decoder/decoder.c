@@ -138,7 +138,7 @@ matrix *apply_model(matrix *output, matrix *input){
             }
 
             // Hard copy output matrix and reference input to copied output
-            memcpy(MODEL_ARRAY_TEMP, output->data, sizeof(output->data) * output->numRows * output->numCols * numFilters);
+            dma_load(MODEL_ARRAY_TEMP, output->data, sizeof(output->data) * output->numRows * output->numCols * numFilters);
             input->data = MODEL_ARRAY_TEMP;
             input->numRows = output->numRows;
             input->numCols = output->numCols;
