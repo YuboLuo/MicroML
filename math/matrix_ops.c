@@ -10,114 +10,6 @@ static uint16_t SPARSEMAX_BUFFER[NUM_OUTPUTS] = {0};
 DSPLIB_DATA(MULTIPLY_BUFFER, 4);
 static dtype MULTIPLY_BUFFER[1800];
 
-
-matrix *conv2d_filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols){
-
-    /** LEA version
-     * do the actual convolution operation for one filter on one channel
-     */
-
-
-    /**
-     * msp_mac_q15() does vector multiplication and then calculate the sum, e.g [1,2,3,4] * [2,2,2,2]  = [2,4,6,8] --> sum = 20
-     * MULTIPLY_BUFFER resides in the 4KB LEA RAM
-     * we first extract the to-be-filtered elements from the input matrix into MULTIPLY_BUFFER
-     * those to-be-filtered elements are flatten, denoted as srcA
-     * copy/flatten the filter into MULTIPLY_BUFFER too, denoted as srcB
-     */
-    uint16_t FilterSize_OFFSET;
-    uint16_t FilterSize = filter->numRows * filter->numCols;  // one filter has 81 bytes
-    uint16_t OutputSize_OFFSET = result->numRows * result->numCols;  /**** must be generalized *****/
-            // ((mat_numRows - filter_numRows)/stride + 1) * (mat_numCols - filter_numCols)/stride + 1;  , output is a 10*10 matrix
-
-
-    if(FilterSize % 2) FilterSize_OFFSET = FilterSize + 1; // because macParams.length must be a multiple of 2
-
-    dtype *srcA = MULTIPLY_BUFFER;   // srcA saves input
-    dtype *srcB = MULTIPLY_BUFFER + FilterSize_OFFSET;  // srcB saves filter
-    _iq31 *result_iq31 = srcB + FilterSize_OFFSET;  // msp_mac_q15() returns _iq31 result
-    _q15 *result_q15 = result_iq31 + OutputSize_OFFSET;  // we will use msp_iq31_to_q15() after filtering
-
-
-    // for msp_mac_q15() params
-    msp_status status;
-    msp_mac_q15_params macParams;
-    macParams.length = FilterSize_OFFSET;  // must be a multiple of 2
-
-    // for msp_iq31_to_q15() params
-    msp_iq31_to_q15_params iq31_to_q15_Params;
-    iq31_to_q15_Params.length = OutputSize_OFFSET;  // must be a multiple of 2
-
-
-    _iq31 *res_iq31_temp = result_iq31;
-
-
-
-    if (stride_numRows == 0 || stride_numCols == 0){
-        return NULL_PTR;
-    }
-    uint16_t i = 0, j, f_i, f_j, k = 0, input_offset, filter_offset;
-    int16_t sum, mult_result, *mult0, *mult1;
-    while (i <= input->numRows - filter->numRows){
-        j = 0;
-        while (j <= input->numCols - filter->numCols){
-
-            // point srcA_temp and srcB_temp to their corresponding initial address
-            dtype *srcA_temp = srcA, *srcB_temp = srcB;
-
-            for (f_i = 0; f_i < filter->numRows; f_i ++){
-                for (f_j = 0; f_j < filter->numCols; f_j ++){
-
-                    // get the offset for to-be-processed input element
-                    input_offset = (i + f_i) * (input->numCols) + j + f_j;
-
-                    // copy to-be-processed input element to LEARAM
-                    *(srcA_temp++) = input->data[input_offset];
-
-                    // as the filter is always the same, we only have to copy it once
-                    if(i == 0 && j == 0){
-                        filter_offset = f_i * filter->numCols + f_j;
-                        *(srcB_temp++) = filter->data[filter_offset];
-                    }
-
-                }
-
-            }
-
-            // do the vector multiplication and calculate the sum, for convolution step
-            status = msp_mac_q15(&macParams, srcA, srcB, res_iq31_temp++);
-            msp_checkStatus(status);
-
-            j += stride_numCols;
-        }
-        i += stride_numRows;
-    }
-
-    // convert the iq31 sum result to q15 datatype
-    status = msp_iq31_to_q15(&iq31_to_q15_Params, result_iq31, result_q15);
-    msp_checkStatus(status);
-
-
-    // Convert back to the original fixed-point precision. The LEA assumes 15 fractional bits.
-    msp_matrix_shift_q15_params shiftParams;
-    shiftParams.rows = OutputSize_OFFSET;
-    shiftParams.cols = 1;
-    shiftParams.shift = 15 - precision;
-
-    // Perform element-wise shift using the LEA
-    if (shiftParams.shift > 0) {
-        status = msp_matrix_shift_q15(&shiftParams, result_q15, result_q15);
-        msp_checkStatus(status);
-    }
-
-
-    // apply activation function element-wise
-    matrix mat = {result_q15, result->numRows, result->numCols};
-    matrix_replace(result, &mat);
-
-    return result;
-}
-
 dtype *dma_load(dtype *result, dtype *data, uint16_t n) {
     /**
      * Loads the first n elements of the data array into the result array using
@@ -133,7 +25,105 @@ dtype *dma_load(dtype *result, dtype *data, uint16_t n) {
 
     return result;
 }
+
 #endif
+
+
+matrix *conv2d_filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols){
+
+    /** LEA version
+     * do the actual convolution operation for one filter on one channel
+     */
+
+    /**
+     * msp_mac_q15() does vector multiplication and then calculate the sum, e.g [1,2,3,4] * [2,2,2,2]  = [2,4,6,8] --> sum = 20
+     * MULTIPLY_BUFFER resides in the 4KB LEA RAM
+     * we first extract the to-be-filtered elements from the input matrix into MULTIPLY_BUFFER
+     * those to-be-filtered elements are flatten, denoted as srcA
+     * copy/flatten the filter into MULTIPLY_BUFFER too, denoted as srcB
+     */
+    #ifdef IS_MSP
+
+    if (stride_numRows == 0 || stride_numCols == 0){
+        return NULL_PTR;
+    }
+
+    uint16_t filter_offset = filter->numRows * filter->numCols;
+    uint16_t output_offset = result->numRows * result->numCols;  /**** must be generalized *****/
+            // ((mat_numRows - filter_numRows)/stride + 1) * (mat_numCols - filter_numCols)/stride + 1;  , output is a 10*10 matrix
+    bool isOdd = filter_offset & 1;
+
+    if (isOdd) filter_offset ++; // because macParams.length must be a multiple of 2
+
+
+    dtype *filterData = dma_load(MULTIPLY_BUFFER, filter->data, filter_offset); // filterData saves filter
+    if (isOdd) filterData[filter_offset - 1] = 0; // zero the last element if the last element is appended
+
+    dtype *matData = MULTIPLY_BUFFER + filter_offset;   // matData saves input
+    _iq31 *result_iq31 = matData + filter_offset;  // msp_mac_q15() returns _iq31 result
+    _q15 *result_q15 = result_iq31 + output_offset;  // we will use msp_iq31_to_q15() after filtering
+
+
+    // for msp_mac_q15() params
+    msp_status status;
+    msp_mac_q15_params macParams;
+    macParams.length = filter_offset;  // must be a multiple of 2
+
+    // for msp_iq31_to_q15() params
+    msp_iq31_to_q15_params iq31_to_q15_Params;
+    iq31_to_q15_Params.length = output_offset;  // must be a multiple of 2
+
+    _iq31 *res_iq31_temp = result_iq31;
+
+    uint16_t i = 0, j, f_i, input_offset;
+    while (i <= input->numRows - filter->numRows){
+        j = 0;
+        while (j <= input->numCols - filter->numCols){
+
+            // point to initial position in leaRAM
+            dtype *matData_pt = matData + filter_offset;
+
+            for (f_i = filter->numRows; f_i > 0; f_i --){
+                matData_pt -= filter->numCols;
+                input_offset = (i + f_i - 1) * (input->numCols) + j;
+
+                // use dma to copy a whole row from input to leaRAM
+                dma_load(matData_pt, input->data + input_offset, filter->numCols);
+            }
+
+            // do the vector multiplication and calculate the sum, for convolution step
+            status = msp_mac_q15(&macParams, filterData, matData, res_iq31_temp++);
+            msp_checkStatus(status);
+
+            j += stride_numCols;
+        }
+        i += stride_numRows;
+    }
+
+    // convert the iq31 sum result to q15 datatype
+    status = msp_iq31_to_q15(&iq31_to_q15_Params, result_iq31, result_q15);
+    msp_checkStatus(status);
+
+
+    // Convert back to the original fixed-point precision. The LEA assumes 15 fractional bits.
+    msp_matrix_shift_q15_params shiftParams;
+    shiftParams.rows = output_offset;
+    shiftParams.cols = 1;
+    shiftParams.shift = 15 - precision;
+
+    // Perform element-wise shift using the LEA
+    if (shiftParams.shift > 0) {
+        status = msp_matrix_shift_q15(&shiftParams, result_q15, result_q15);
+        msp_checkStatus(status);
+    }
+
+    // use DMA to copy the result from leaRAM to result matrix
+    dma_load(result->data, result_q15, output_offset);
+
+    #endif
+
+    return result;
+}
 
 matrix *matrix_add(matrix *result, matrix *mat1, matrix *mat2) {
     /**
