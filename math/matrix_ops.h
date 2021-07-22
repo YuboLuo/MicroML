@@ -15,6 +15,7 @@
 
 #define VECTOR_COLUMN(X)    ((X) * VECTOR_COLS)
 
+
 // Standard matrix operations
 matrix *matrix_add(matrix *result, matrix *mat1, matrix *mat2);
 matrix *matrix_multiply(matrix *result, matrix *mat1, matrix *mat2, uint16_t precision);
@@ -34,5 +35,10 @@ matrix *sparsemax(matrix *result, matrix *vec, uint16_t precision);
 int16_t argmax(matrix *vec);
 int16_t matrix_sum(matrix *mat);
 int16_t matrix_min(matrix *mat);
+
+
+matrix *conv2d_filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols);
+
+
 
 #endif

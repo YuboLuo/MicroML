@@ -9,6 +9,7 @@
 #ifndef LAYERS_GUARD
 #define LAYERS_GUARD
 
+
 // Standard Neural Network Functions
 matrix *dense(matrix *result, matrix *input, matrix *W, matrix *b, int16_t (*activation)(int16_t, uint16_t), uint16_t precision);
 matrix *apply_gate(matrix *result, matrix *gate, matrix *first, matrix *second, matrix *temp, uint16_t precision);
