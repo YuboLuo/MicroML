@@ -28,7 +28,6 @@ dtype *dma_load(dtype *result, dtype *data, uint16_t n) {
 
 #endif
 
-
 matrix *conv2d_filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols){
 
     /** LEA version
@@ -169,6 +168,59 @@ matrix *matrix_neg(matrix *result, matrix *mat, uint16_t precision) {
     return scalar_product(result, mat, int_to_fp(-1, precision), precision);
 }
 
+
+matrix *large_matrix_multiply(matrix *result, matrix *mat1, matrix *mat2, uint16_t precision) {
+    /**
+         * Performs matrix multiplication and stores value in given result array. The implementation
+         * depends on whether or not we are compiling for the MSP430 device.
+         */
+
+        // Validate dimensions
+        if ((mat1->numCols != mat2->numRows) || (mat1->numRows != result->numRows) || (mat2->numCols != result->numCols)) {
+            return NULL_PTR;
+        }
+
+        // The result will be a [n, p] matrix
+        uint16_t n = mat1->numRows;
+        uint16_t m = mat1->numCols;
+        uint16_t p = mat2->numCols;
+
+        dtype *resultData = result->data;
+        dtype *mat1Data = mat1->data;
+
+
+        #ifdef IS_MSP
+
+        if (n * m + m * p + n * p > 1800){
+
+            mat1->numRows = n >> 1;
+            result->numRows = n >> 1;
+            result = large_matrix_multiply(result, mat1, mat2, precision);
+
+            mat1->numRows = n >> 1;
+            result->numRows = n >> 1;
+            mat1->data = mat1Data + ((n * m) >> 1);
+            result->data = resultData + ((n * p) >> 1);
+            result = large_matrix_multiply(result, mat1, mat2, precision);
+
+            result->numRows = n;
+            result->data = resultData;
+            mat1->numRows = n;
+            mat1->data = mat1Data;
+
+        }
+        else{
+            result = matrix_multiply(result, mat1, mat2, precision);
+        }
+
+        #else
+
+        result = matrix_multiply(result, mat1, mat2, precision);
+
+        #endif
+
+        return result;
+}
 
 matrix *matrix_multiply(matrix *result, matrix *mat1, matrix *mat2, uint16_t precision) {
     /**
