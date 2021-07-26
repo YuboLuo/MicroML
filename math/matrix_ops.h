@@ -36,7 +36,8 @@ int16_t argmax(matrix *vec);
 int16_t matrix_sum(matrix *mat);
 int16_t matrix_min(matrix *mat);
 
-matrix *conv2d_filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols);
+matrix *conv2d_filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols, uint16_t padding);
 matrix *large_matrix_multiply(matrix *result, matrix *mat1, matrix *mat2, uint16_t precision);
+matrix *matrix_padding(matrix *result, matrix *kernel, uint16_t padding);
 
 #endif
