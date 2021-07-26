@@ -7,7 +7,7 @@ matrix *dense(matrix *result, matrix *input, matrix *W, matrix *b, int16_t (*act
     /**
      * Implementation of a dense feed-forward layer (FC - full connected layer) using matrix operations.
      */
-    result = matrix_multiply(result, W, input, precision);
+    result = large_matrix_multiply(result, W, input, precision);
 
     // Only add bias if given 
     if (b != NULL_PTR) {
@@ -139,10 +139,6 @@ matrix *conv2d_filter(matrix* result, matrix *input, matrix *filter, uint16_t pr
     }
     return result;
 }
-
-
-
-
 
 
 matrix *conv2d_multi_channel_filter(matrix *result, matrix *input, matrix *filter, uint16_t numChannels, int16_t b, int16_t (*activation)(int16_t, uint16_t), uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols){
