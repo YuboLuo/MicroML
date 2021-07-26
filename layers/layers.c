@@ -3,6 +3,9 @@
 #pragma PERSISTENT(TEMP_RESULT_ARRAY)
 static int16_t TEMP_RESULT_ARRAY[128] = {0};
 
+#pragma PERSISTENT(PADDING_BUFFER)
+static dtype PADDING_BUFFER[4096] = {0};
+
 matrix *dense(matrix *result, matrix *input, matrix *W, matrix *b, int16_t (*activation)(int16_t, uint16_t), uint16_t precision) {
     /**
      * Implementation of a dense feed-forward layer (FC - full connected layer) using matrix operations.
@@ -18,7 +21,7 @@ matrix *dense(matrix *result, matrix *input, matrix *W, matrix *b, int16_t (*act
     return result;
 }
 
-matrix *conv2d_maxpooling(matrix *result, matrix *input, uint16_t poolsize_Rows, uint16_t poolsize_Cols){
+matrix *conv2d_maxpooling(matrix *result, matrix *input, uint16_t poolsize_Rows, uint16_t poolsize_Cols, uint16_t padding){
     /**
      * Implementation of maxpooling layer for CNN
      */
@@ -26,6 +29,10 @@ matrix *conv2d_maxpooling(matrix *result, matrix *input, uint16_t poolsize_Rows,
     if (poolsize_Rows == 0 || poolsize_Cols == 0){
         return NULL_PTR;
     }
+
+    matrix padding_mat = {PADDING_BUFFER, 0, 0};
+    matrix_padding(&padding_mat, input, padding);
+    input = &padding_mat;
 
     uint16_t i = 0, j = 0, k = 0, p_i, p_j, offset;
     int16_t *max;
@@ -57,7 +64,7 @@ matrix *conv2d_maxpooling(matrix *result, matrix *input, uint16_t poolsize_Rows,
 }
 
 
-matrix *conv2d_maxpooling_multi_filter(matrix *result, matrix *input, uint16_t numFilters, uint16_t poolsize_Rows, uint16_t poolsize_Cols){
+matrix *conv2d_maxpooling_multi_filter(matrix *result, matrix *input, uint16_t numFilters, uint16_t poolsize_Rows, uint16_t poolsize_Cols, uint16_t padding){
     /**
      * Iteration for each filter
      * one conv2d layer usually has multiple filters, we do maxpooling one by one
@@ -74,7 +81,7 @@ matrix *conv2d_maxpooling_multi_filter(matrix *result, matrix *input, uint16_t n
         result->data = &result_head[result_offset];
 
         /* process one filter at a time */
-        conv2d_maxpooling(result, input, poolsize_Rows, poolsize_Cols);
+        conv2d_maxpooling(result, input, poolsize_Rows, poolsize_Cols, padding);
     }
     return result;
 }
@@ -106,13 +113,18 @@ matrix *conv2d_flatten(matrix* result, matrix *input, uint16_t num_filter){
 
 }
 
-matrix *conv2d_filter(matrix* result, matrix *input, matrix *filter, uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols){
+matrix *conv2d_filter(matrix* result, matrix *input, matrix *filter, uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols, uint16_t padding){
     /**
      * do the actual convolution operation for one filter on one channel
      */
     if (stride_numRows == 0 || stride_numCols == 0){
         return NULL_PTR;
     }
+
+    matrix padding_mat = {PADDING_BUFFER, 0, 0};
+    matrix_padding(&padding_mat, input, padding);
+    input = &padding_mat;
+
     uint16_t i = 0, j, f_i, f_j, k = 0, input_offset, filter_offset;
     int16_t sum, mult_result, *mult0, *mult1;
     while (i <= input->numRows - filter->numRows){
@@ -141,7 +153,7 @@ matrix *conv2d_filter(matrix* result, matrix *input, matrix *filter, uint16_t pr
 }
 
 
-matrix *conv2d_multi_channel_filter(matrix *result, matrix *input, matrix *filter, uint16_t numChannels, int16_t b, int16_t (*activation)(int16_t, uint16_t), uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols){
+matrix *conv2d_multi_channel_filter(matrix *result, matrix *input, matrix *filter, uint16_t numChannels, int16_t b, int16_t (*activation)(int16_t, uint16_t), uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols, uint16_t padding){
 
     int16_t *filter_head = filter->data;
     int16_t *input_head = input->data;
@@ -151,7 +163,7 @@ matrix *conv2d_multi_channel_filter(matrix *result, matrix *input, matrix *filte
     for (i = numChannels; i > 0; i --){
         input->data = &input_head[input_length * (i - 1)];
         filter->data = &filter_head[filter_length * (i - 1)];
-        conv2d_filter_LEA(&temp, input, filter, precision, stride_numRows, stride_numCols);
+        conv2d_filter_LEA(&temp, input, filter, precision, stride_numRows, stride_numCols, padding);
         matrix_add(result, result, &temp);
     }
     for (i = result_length; i > 0; i --){
@@ -162,7 +174,7 @@ matrix *conv2d_multi_channel_filter(matrix *result, matrix *input, matrix *filte
     return result;
 }
 
-matrix *conv2d_multi_channel_multi_filter(matrix *result, matrix *input, matrix *filter, uint16_t numFilters, uint16_t numChannels, int16_t *b, int16_t (*activation)(int16_t, uint16_t), uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols){
+matrix *conv2d_multi_channel_multi_filter(matrix *result, matrix *input, matrix *filter, uint16_t numFilters, uint16_t numChannels, int16_t *b, int16_t (*activation)(int16_t, uint16_t), uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols, uint16_t padding){
 
     uint16_t i, result_length = result->numRows * result->numCols, filter_length = filter->numRows * filter->numCols * numChannels;
     int16_t *filter_head = filter->data, *result_head = result->data;
@@ -171,7 +183,7 @@ matrix *conv2d_multi_channel_multi_filter(matrix *result, matrix *input, matrix 
         filter->data = &(filter_head[(i - 1) * filter_length]);
         result->data = &(result_head[(i - 1) * result_length]);
 
-        conv2d_multi_channel_filter(result, input, filter, numChannels, b[i - 1], activation, precision, stride_numRows, stride_numCols);
+        conv2d_multi_channel_filter(result, input, filter, numChannels, b[i - 1], activation, precision, stride_numRows, stride_numCols, padding);
     }
     return result;
 }
