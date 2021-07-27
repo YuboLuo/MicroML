@@ -1,4 +1,5 @@
 #include "decoder.h"
+#include "gpio.c"
 
 #pragma PERSISTENT(MODEL_ARRAY_OUTPUT)
 static int16_t MODEL_ARRAY_OUTPUT[512] = {0};
@@ -20,6 +21,8 @@ matrix *apply_model(matrix *output, matrix *input){
     // Sequential model
     if (array[i] == 0){  // 1st element of the array tells the model type
         i ++;
+
+
         while (i != array_length){
             // next element of the array tells the layer class
 
@@ -74,6 +77,9 @@ matrix *apply_model(matrix *output, matrix *input){
             /* layer class 2 - Conv2D */
             else if (array[i] == 2){
 
+                GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN2);
+                GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN2);
+
                 // extract and prepare layer parameters
                 layer_class = array[i];
                 activation = array[i+1];
@@ -84,7 +90,8 @@ matrix *apply_model(matrix *output, matrix *input){
                 uint16_t stride_numRows = array[i+6];
                 uint16_t stride_numCols = array[i+7];
                 uint16_t filters_length = array[i+8];
-                i += 9;
+                uint16_t padding = array[i+9];
+                i += 10;
 
                 // prepare outout
                 output->numRows = (input->numRows - filter_numRows + 1) / stride_numRows;
@@ -107,11 +114,13 @@ matrix *apply_model(matrix *output, matrix *input){
 
                 // execute conv2d layer
                 if (activation == 2){
-                    conv2d_multi_channel_multi_filter(output, input, &filters, numFilters, numChannels, bias_array, &fp_relu, FIXED_POINT_PRECISION, stride_numRows, stride_numCols);
+                    conv2d_multi_channel_multi_filter(output, input, &filters, numFilters, numChannels, bias_array, &fp_relu, FIXED_POINT_PRECISION, stride_numRows, stride_numCols, padding);
                 }
                 else{
-                    conv2d_multi_channel_multi_filter(output, input, &filters, numFilters, numChannels, bias_array, &fp_linear, FIXED_POINT_PRECISION, stride_numRows, stride_numCols);
+                    conv2d_multi_channel_multi_filter(output, input, &filters, numFilters, numChannels, bias_array, &fp_linear, FIXED_POINT_PRECISION, stride_numRows, stride_numCols, padding);
                 }
+
+                GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN2);
 
             }
 
@@ -121,16 +130,18 @@ matrix *apply_model(matrix *output, matrix *input){
                 uint16_t pool_numCols = array[i+2];
                 uint16_t stride_numRows = array[i+3];
                 uint16_t stride_numCols = array[i+4];
-                i += 5;
+                uint16_t padding = array[i+5];
+                i += 6;
 
                 output->numRows = input->numRows / pool_numRows;
                 output->numCols = input->numCols / pool_numCols;
 
-                conv2d_maxpooling_multi_filter(output, input, numFilters, pool_numRows, pool_numCols);
+                conv2d_maxpooling_multi_filter(output, input, numFilters, pool_numRows, pool_numCols, padding);
             }
 
             /* layer class 4 - Conv2D Flatten */
             else if (array[i] == 4){
+
                 i += 1;
                 output->numRows = input->numRows * input->numCols * numFilters;
                 output->numCols = 2;
@@ -145,7 +156,6 @@ matrix *apply_model(matrix *output, matrix *input){
         }
 
     }
-
     return output;
 }
 
