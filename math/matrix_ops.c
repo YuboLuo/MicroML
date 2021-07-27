@@ -44,7 +44,7 @@ matrix *conv2d_filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_
      * those to-be-filtered elements are flatten, denoted as srcA
      * copy/flatten the filter into MULTIPLY_BUFFER too, denoted as srcB
      */
-    #ifdef IS_MSP
+
 
     if (stride_numRows == 0 || stride_numCols == 0){
         return NULL_PTR;
@@ -126,7 +126,6 @@ matrix *conv2d_filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_
     // use DMA to copy the result from leaRAM to result matrix
     dma_load(result->data, result_q15, output_offset);
 
-    #endif
 
     return result;
 }
@@ -219,7 +218,7 @@ matrix *large_matrix_multiply(matrix *result, matrix *mat1, matrix *mat2, uint16
         dtype *mat1Data = mat1->data;
 
 
-        #ifdef IS_MSP
+
 
         if (n * m + m * p + n * p > 1800){
 
@@ -243,11 +242,6 @@ matrix *large_matrix_multiply(matrix *result, matrix *mat1, matrix *mat2, uint16
             result = matrix_multiply(result, mat1, mat2, precision);
         }
 
-        #else
-
-        result = matrix_multiply(result, mat1, mat2, precision);
-
-        #endif
 
         return result;
 }
@@ -268,7 +262,7 @@ matrix *matrix_multiply(matrix *result, matrix *mat1, matrix *mat2, uint16_t pre
     uint16_t m = mat1->numCols;
     uint16_t p = mat2->numCols;
 
-    #ifdef IS_MSP
+
     // We first transfer the input matrices to the LEA RAM segment. We make this
     // copy efficient using DMA.
     uint16_t offset = 0;
@@ -310,29 +304,6 @@ matrix *matrix_multiply(matrix *result, matrix *mat1, matrix *mat2, uint16_t pre
     // Load result back into the given result matrix
     dma_load(result->data, resultData, n * p);
 
-    #else
-
-    uint16_t i, j, k;
-    uint16_t outerRow, innerRow, resultRow;
-    int16_t sum, prod;
-
-    for (i = n; i > 0; i--) {
-        outerRow = (i - 1) * m;  // Offset for the i^th row
-
-        for (j = p; j > 0; j--) {
-            sum = 0;
-
-            for (k = m; k > 0; k--) {
-                innerRow = (k - 1) * p;  // Offset for the k^th row
-                prod = fp_mul(mat1->data[outerRow + (k - 1)], mat2->data[innerRow + (j - 1)], precision);
-                sum = fp_add(sum, prod);
-            }
- 
-            resultRow = (i - 1) * p;
-            result->data[resultRow + (j - 1)] = sum;
-        }
-    }
-    #endif
 
     return result;
 }
