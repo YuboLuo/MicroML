@@ -37,13 +37,6 @@ void init_gpio(void) {
     PM5CTL0 &= ~LOCKLPM5;
 }
 
-//void init_uart_pins(void) {
-//    /*
-//     * Configures USCI_A3 Pins
-//     */
-//    CLR_BIT(P6SEL1, (BIT0 | BIT1));
-//    SET_BIT(P6SEL0, (BIT0 | BIT1));
-//}
 
 void init_clock_system(void) {
     /**
@@ -56,30 +49,5 @@ void init_clock_system(void) {
     CSCTL3 =  DIVA__1 | DIVS__1 | DIVM__1;  // Set dividers
     CSCTL0_H = 0;   // Lock the clock system control registers
 
-//    // Configure USCI_A3 for UART  // commented by Yubo
-//    UCA3CTLW0 = UCSWRST;  // Put eUSCI in reset
-//    UCA3CTLW0 |= UCSSEL__SMCLK;  // CLK = SMCLK
-//    UCA3BRW = 6;  // integer part of (10^6) / (16 * 9600)
-//    UCA3MCTLW |= UCOS16 | UCBRF_8 | 0xAA;  // UCBRSx = 0xAA (User Guide Table 30-4)
-//    UCA3CTLW0 &= ~UCSWRST;  // Initialize eUSCI
-//    UCA3IE |= UCRXIE;  // Enable RX Interrupt
 }
 
-//void init_adc12(void) {
-//    P1SEL1 |= BIT2;                         // Configure P1.2 for ADC
-//    P1SEL0 |= BIT2;
-//
-//    while(REFCTL0 & REFGENBUSY);            // If ref generator busy, WAIT
-//    REFCTL0 |= REFVSEL_2 | REFON;           // Select internal ref = 2.5V
-//                                            // Internal Reference ON
-//
-//    // Configure ADC12
-//    ADC12CTL0 = ADC12SHT0_2 | ADC12ON;
-//    ADC12CTL1 = ADC12SHP;                   // ADCCLK = MODOSC; sampling timer
-//    ADC12CTL2 |= ADC12RES_2;                // 12-bit conversion results
-//    ADC12IER0 |= ADC12IE0;                  // Enable ADC conv complete interrupt
-//    ADC12MCTL0 |= ADC12INCH_2 | ADC12VRSEL_1; // A2 ADC input select; Vref = 2.5V
-//
-//    while(!(REFCTL0 & REFGENRDY));          // Wait for reference generator
-//                                            // to settle
-//}

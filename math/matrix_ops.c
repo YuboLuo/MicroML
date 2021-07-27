@@ -1,14 +1,15 @@
 #include "matrix_ops.h"
 
 static uint16_t SPARSEMAX_BUFFER[NUM_OUTPUTS] = {0};
-
-#ifdef IS_MSP
 #include "DSPLib.h"
+
 
 // For MSP implementations, we allocate memory in the LEA RAM.
 // This memory is used when executing matrix multiplications.
 DSPLIB_DATA(MULTIPLY_BUFFER, 4);
 static dtype MULTIPLY_BUFFER[1800];
+
+
 
 dtype *dma_load(dtype *result, dtype *data, uint16_t n) {
     /**
@@ -26,7 +27,6 @@ dtype *dma_load(dtype *result, dtype *data, uint16_t n) {
     return result;
 }
 
-#endif
 
 matrix *conv2d_filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_t precision, uint16_t stride_numRows, uint16_t stride_numCols){
 

@@ -6,7 +6,6 @@
 
 void init_gpio(void);
 void init_clock_system(void);
-//void init_uart_pins(void);
-//void init_adc12(void); // only for reading voltage
+
 
 #endif
