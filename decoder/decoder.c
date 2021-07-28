@@ -1,5 +1,6 @@
 #include "decoder.h"
-#include "gpio.c"
+#include <msp430.h>
+//#include "gpio.c"
 
 #pragma PERSISTENT(MODEL_ARRAY_OUTPUT)
 static int16_t MODEL_ARRAY_OUTPUT[512] = {0};
@@ -77,8 +78,9 @@ matrix *apply_model(matrix *output, matrix *input){
             /* layer class 2 - Conv2D */
             else if (array[i] == 2){
 
-                GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN2);
-                GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN2);
+//                GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN2);
+//                GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN2);
+                P1OUT |= BIT2; // set high on P1.2
 
                 // extract and prepare layer parameters
                 layer_class = array[i];
@@ -120,7 +122,8 @@ matrix *apply_model(matrix *output, matrix *input){
                     conv2d_multi_channel_multi_filter(output, input, &filters, numFilters, numChannels, bias_array, &fp_linear, FIXED_POINT_PRECISION, stride_numRows, stride_numCols, padding);
                 }
 
-                GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN2);
+//                GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN2);
+                P1OUT &= ~BIT2; // set low on P1.2
 
             }
 
