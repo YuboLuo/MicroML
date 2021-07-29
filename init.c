@@ -40,14 +40,39 @@ void init_gpio(void) {
 
 void init_clock_system(void) {
     /**
-     * Initializes the UART system by setting the correct baudrate.
+     * set up system clock
      */
-    // Set clock system with DCO of ~1MHz
-    CSCTL0_H = CSKEY_H;  // Unlock clock system control registers
-    CSCTL1 = DCOFSEL_0;  // Set DCO to 1MHz
-    CSCTL2 = SELS__DCOCLK | SELM__DCOCLK;
-    CSCTL3 =  DIVA__1 | DIVS__1 | DIVM__1;  // Set dividers
-    CSCTL0_H = 0;   // Lock the clock system control registers
+
+    // Configure one FRAM waitstate as required by the device datasheet for MCLK
+    // operation beyond 8MHz _before_ configuring the clock system.
+    FRCTL0 = FRCTLPW | NWAITS_1;
+
+
+    // Clock System Setup - 16MHz
+    // followed this post: https://e2e.ti.com/support/microcontrollers/msp-low-power-microcontrollers-group/msp430/f/msp-low-power-microcontroller-forum/609971/msp430fr5994-can-t-get-system-to-work-on-16-mhz
+    // and this TI's official example code: https://dev.ti.com/tirex/explore/node?node=ALMKUpgS2sr.Sf-qEyGcAQ__IOGqZri__LATEST
+    /* ACLK = ~9.4kHz,  SMCLK = MCLK = 16MHz */
+    CSCTL0_H = CSKEY_H;                     // Unlock CS registers
+    CSCTL1 = DCOFSEL_0;                     // Set DCO to 1MHz
+    // Set SMCLK = MCLK = DCO, ACLK = VLOCLK
+    CSCTL2 = SELA__VLOCLK | SELS__DCOCLK | SELM__DCOCLK;
+    // Per Device Errata set divider to 4 before changing frequency to
+    // prevent out of spec operation from overshoot transient
+    CSCTL3 = DIVA__4 | DIVS__4 | DIVM__4;   // Set all corresponding clk sources to divide by 4 for errata
+    CSCTL1 = DCOFSEL_4 | DCORSEL;           // Set DCO to 16MHz
+    // Delay by ~10us to let DCO settle. 60 cycles = 20 cycles buffer + (10us / (1/4MHz))
+    __delay_cycles(60);
+    CSCTL3 = DIVA__1 | DIVS__1 | DIVM__1;   // Set all dividers to 1 for 16MHz operation
+    CSCTL0_H = 0;                           // Lock CS registers                      // Lock CS registers
+
+
+//    // old setting
+//    // Set clock system with DCO of 8MHz
+//    CSCTL0_H = CSKEY_H;  // Unlock clock system control registers
+//    CSCTL1 = DCOFSEL_6;  // Set DCO to 1MHz(DCOFSEL_0), DCOFSEL_6 = 8MHz
+//    CSCTL2 = SELS__DCOCLK | SELM__DCOCLK;
+//    CSCTL3 =  DIVA__1 | DIVS__1 | DIVM__1;  // Set dividers
+//    CSCTL0_H = 0;   // Lock the clock system control registers
 
 }
 
