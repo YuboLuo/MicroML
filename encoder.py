@@ -23,7 +23,7 @@ def encode_layer(layer) -> int:
 
 def encode_activation(layer) -> int:
     activation_name = layer.activation.__name__
-    map_activation = {"linear":0, "sigmoid":1, "relu":2, "tanh":3}
+    map_activation = {"linear":0, "sigmoid":1, "relu":2, "tanh":3, "softmax":4}
     return map_activation[activation_name]
 
 def encode_dense_data(layer) -> list:
@@ -113,17 +113,21 @@ def encode(model) -> list:
         for layer in model.layers:
             if encode_layer(layer) == -1:
                 return encode_list
-            encode_list.append(encode_layer(layer))
             if encode_layer(layer) == 0:
+                encode_list.append(encode_layer(layer))
                 encode_list = encode_list + encode_dense_data(layer)
             elif encode_layer(layer) == 1:
-                pass
+                encode_list.append(encode_layer(layer))
             elif encode_layer(layer) == 2:
+                encode_list.append(encode_layer(layer))
                 encode_list = encode_list + encode_conv2d_data(layer)
             elif encode_layer(layer) == 3:
+                encode_list.append(encode_layer(layer))
                 encode_list = encode_list + encode_maxpooling2d_data(layer)
             elif encode_layer(layer) == 4:
-                pass
+                encode_list.append(encode_layer(layer))
+            elif encode_layer(layer) == 5:
+                encode_list.append(encode_layer(layer))
     return encode_list
 
 def export_model(model):
@@ -132,7 +136,23 @@ def export_model(model):
     for element in encode(model):
         output_str = output_str + f"{element},"
         count += 1
-    f = open("model.csv", "w")
+    output_str = \
+"""#include "../math/matrix.h"
+#include "neural_network_parameters.h"
+#include "neural_network.h"
+
+#ifndef DECODER_GUARD
+#define DECODER_GUARD
+
+matrix *apply_model(matrix *output, matrix *input);
+
+#pragma PERSISTENT(MODEL_ARRAY)
+static dtype MODEL_ARRAY[""" + f"{count}" + "] ="  + "{" + f"{output_str[:-1]}" + "};" + """
+
+static uint16_t MODEL_ARRAY_LENGTH = """ + f"{count}" + """;
+#endif
+"""
+
+    f = open("decoder.h", "w")
     f.write(output_str)
     f.close()
-    print(count)
