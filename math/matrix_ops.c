@@ -54,9 +54,8 @@ matrix *filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_t preci
     msp_iq31_to_q15_params iq31_to_q15_Params;
     iq31_to_q15_Params.length = 2;                  // must be a multiple of 2
 
-    msp_matrix_shift_q15_params shiftParams;
-    shiftParams.rows = 2;                           // must be a multiple of 2
-    shiftParams.cols = 1;
+    msp_shift_iq31_params shiftParams;
+    shiftParams.length = 2;                           // must be a multiple of 2
     shiftParams.shift = 15 - precision;
 
     for (i = 0; i <= input_numRows - filter_numRows; i += stride_numRows){
@@ -76,15 +75,11 @@ matrix *filter_LEA(matrix* result, matrix *input, matrix *filter, uint16_t preci
             status = msp_mac_q15(&macParams, srcA, srcB, result_iq31);
             msp_checkStatus(status);
 
-            // cast 32 bits to 16 bits
-            status = msp_iq31_to_q15(&iq31_to_q15_Params, result_iq31, result_q15);
+            status = msp_shift_iq31(&shiftParams, result_iq31, result_iq31);
             msp_checkStatus(status);
 
-            // apply shifting
-            if (shiftParams.shift > 0) {
-                status = msp_matrix_shift_q15(&shiftParams, result_q15, result_q15);
-                msp_checkStatus(status);
-            }
+            status = msp_iq31_to_q15(&iq31_to_q15_Params, result_iq31, result_q15);
+            msp_checkStatus(status);
 
             *resultData = *result_q15;
             resultData ++;

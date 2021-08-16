@@ -178,7 +178,7 @@ matrix *filters_sum(matrix *result, matrix *input, matrix *filter, uint16_t numC
         if (padding == 1) {
             padding_same(input, input, filter, stride_numRows, stride_numCols);
         }
-        filter_simple(&temp, input, filter, precision, stride_numRows, stride_numCols);
+        filter_LEA(&temp, input, filter, precision, stride_numRows, stride_numCols);
         matrix_add(result, result, &temp);
         input->numRows = input_numRows;
         input->numCols = input_numCols;
