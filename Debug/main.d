@@ -99,6 +99,40 @@ main.obj: /home/leonard/Desktop/budgetRNN_CNN/math/matrix.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/math/fixed_point_ops.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/neural_network_parameters.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/math/matrix.h
+main.obj: ../LiveTempMode.h
+main.obj: ../FRAMLogMode.h
+main.obj: ../SDCardLogMode.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/driverlib.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/inc/hw_memmap.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/adc12_b.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/aes256.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/comp_e.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/crc.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/crc32.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/cs.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/dma.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/esi.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/eusci_a_spi.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/eusci_a_uart.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/eusci_b_i2c.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/eusci_b_spi.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/framctl.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/framctl_a.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/gpio.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/lcd_c.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/mpu.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/mpy32.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/pmm.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/ram.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/ref_a.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/rtc_b.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/rtc_c.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/sfr.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/sysctl.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/timer_a.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/timer_b.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/tlv.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/wdt_a.h
 
 ../main.c:
 
@@ -297,4 +331,72 @@ main.obj: /home/leonard/Desktop/budgetRNN_CNN/math/matrix.h
 /home/leonard/Desktop/budgetRNN_CNN/neural_network_parameters.h:
 
 /home/leonard/Desktop/budgetRNN_CNN/math/matrix.h:
+
+../LiveTempMode.h:
+
+../FRAMLogMode.h:
+
+../SDCardLogMode.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/driverlib.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/inc/hw_memmap.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/adc12_b.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/aes256.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/comp_e.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/crc.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/crc32.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/cs.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/dma.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/esi.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/eusci_a_spi.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/eusci_a_uart.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/eusci_b_i2c.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/eusci_b_spi.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/framctl.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/framctl_a.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/gpio.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/lcd_c.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/mpu.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/mpy32.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/pmm.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/ram.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/ref_a.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/rtc_b.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/rtc_c.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/sfr.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/sysctl.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/timer_a.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/timer_b.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/tlv.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/wdt_a.h:
 

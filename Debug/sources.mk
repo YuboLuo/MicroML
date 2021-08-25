@@ -118,8 +118,12 @@ DSPLib/source/matrix \
 DSPLib/source/transform \
 DSPLib/source/utility \
 DSPLib/source/vector \
+FatFs \
+HAL \
+SDCardLib \
 controller \
 decoder \
+driverlib/MSP430FR5xx_6xx \
 layers \
 math \
 utils \
