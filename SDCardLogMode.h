@@ -45,7 +45,8 @@
 #define OUTOFBOX_FR5969_NEWD_SDCARDLOGMODE_H_
 
 #include <stdint.h>
-
+#include "sdcard.h"
+#include "HAL_SDCard.h"
 
 #define SDCARD_LOG_MODE      '6'
 #define TRANSMIT_SDCARD_DATA_MODE '7'
@@ -53,16 +54,7 @@
 extern int mode;
 extern int noSDCard;
 
-void sdcardLog(void);
-void sendDataSDCard(void);
-void sendTimeStampSDCard(void);
-
-void setBuffer(char* array, int length);
-void writeSD(void);
-void readSD(void);
-uint8_t Get_RandomAction(void);
-
-void storeTimeStampSDCard(void);
-char * itoa(int, char *, int);
+int16_t *writeSD_data16(int16_t *buffer, char *f_name, uint16_t length);
+int16_t *readSD_data16(int16_t *buffer, char *f_name, uint16_t offset, uint16_t length);
 
 #endif /* OUTOFBOX_FR5969_NEWD_SDCARDLOGMODE_H_ */

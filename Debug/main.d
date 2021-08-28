@@ -99,9 +99,16 @@ main.obj: /home/leonard/Desktop/budgetRNN_CNN/math/matrix.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/math/fixed_point_ops.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/neural_network_parameters.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/math/matrix.h
-main.obj: ../LiveTempMode.h
-main.obj: ../FRAMLogMode.h
 main.obj: ../SDCardLogMode.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/SDCardLib/sdcard.h
+main.obj: /opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/stdio.h
+main.obj: /opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/stdarg.h
+main.obj: /opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/string.h
+main.obj: /opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/xlocale/_string.h
+main.obj: /opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/assert.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/FatFs/ff.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/FatFs/integer.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/FatFs/ffconf.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/driverlib.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/inc/hw_memmap.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/adc12_b.h
@@ -133,6 +140,7 @@ main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/timer_a.
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/timer_b.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/tlv.h
 main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/wdt_a.h
+main.obj: /home/leonard/Desktop/budgetRNN_CNN/HAL/HAL_SDCard.h
 
 ../main.c:
 
@@ -332,11 +340,25 @@ main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/wdt_a.h
 
 /home/leonard/Desktop/budgetRNN_CNN/math/matrix.h:
 
-../LiveTempMode.h:
-
-../FRAMLogMode.h:
-
 ../SDCardLogMode.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/SDCardLib/sdcard.h:
+
+/opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/stdio.h:
+
+/opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/stdarg.h:
+
+/opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/string.h:
+
+/opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/xlocale/_string.h:
+
+/opt/ti/ccs1040/ccs/tools/compiler/ti-cgt-msp430_20.2.5.LTS/include/assert.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/FatFs/ff.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/FatFs/integer.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/FatFs/ffconf.h:
 
 /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/driverlib.h:
 
@@ -399,4 +421,6 @@ main.obj: /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/wdt_a.h
 /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/tlv.h:
 
 /home/leonard/Desktop/budgetRNN_CNN/driverlib/MSP430FR5xx_6xx/wdt_a.h:
+
+/home/leonard/Desktop/budgetRNN_CNN/HAL/HAL_SDCard.h:
 

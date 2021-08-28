@@ -13,6 +13,7 @@
 #include "controller/interpolation.h"
 
 #include "decoder/decoder.h"
+#include "SDCardLogMode.h"
 
 #ifndef MAIN_GUARD
 #define MAIN_GUARD
