@@ -55,6 +55,6 @@ extern int mode;
 extern int noSDCard;
 
 int16_t *writeSD_data16(int16_t *buffer, char *f_name, uint16_t length);
-int16_t *readSD_data16(int16_t *buffer, char *f_name, uint16_t offset, uint16_t length);
+int16_t *readSD_data16(int16_t *buffer, char *f_name, uint16_t length);
 
 #endif /* OUTOFBOX_FR5969_NEWD_SDCARDLOGMODE_H_ */

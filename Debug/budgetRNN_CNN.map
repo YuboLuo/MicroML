@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker Unix v20.2.5                   
 ******************************************************************************
->> Linked Sat Aug 28 00:30:14 2021
+>> Linked Sat Aug 28 22:05:50 2021
 
 OUTPUT FILE NAME:   <budgetRNN_CNN.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs_mpu"  address: 000068b4
+ENTRY POINT SYMBOL: "_c_int00_noargs_mpu"  address: 000068ac
 
 
 MEMORY CONFIGURATION
@@ -20,7 +20,7 @@ MEMORY CONFIGURATION
   RAM                   00001c00   00001000  00000418  00000be8  RWIX
   LEARAM                00002c00   00000ec8  00000000  00000ec8  RWIX
   LEASTACK              00003ac8   00000138  00000000  00000138  RWIX
-  FRAM                  00004000   0000bf80  00002998  000095e8  RWIX
+  FRAM                  00004000   0000bf80  00002990  000095f0  RWIX
   JTAGSIGNATURE         0000ff80   00000004  00000004  00000000  RWIX  ffff 
   BSLSIGNATURE          0000ff84   00000004  00000004  00000000  RWIX  ffff 
   IPESIGNATURE          0000ff88   00000008  00000008  00000000  RWIX  ffff 
@@ -105,20 +105,21 @@ section   page    origin      length       input sections
 
 .binit     0    00004000    00000000     
 
-.cinit     0    00006942    00000056     
-                  00006942    00000034     (.cinit..data.load) [load image, compression = lzss]
-                  00006976    0000000c     (__TI_handler_table)
-                  00006982    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  00006988    00000010     (__TI_cinit_table)
+.cinit     0    0000693a    00000056     
+                  0000693a    00000033     (.cinit..data.load) [load image, compression = lzss]
+                  0000696d    00000001     --HOLE-- [fill = 0]
+                  0000696e    0000000c     (__TI_handler_table)
+                  0000697a    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  00006980    00000010     (__TI_cinit_table)
 
 .init_array 
 *          0    00004000    00000000     UNINITIALIZED
 
 .text:_isr 
-*          0    00006890    0000004c     
-                  00006890    00000024     msp_lea_isr.obj (.text:_isr:msp_lea_isr)
-                  000068b4    00000020     rts430x_lc_ld_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs_mpu)
-                  000068d4    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00006888    0000004c     
+                  00006888    00000024     msp_lea_isr.obj (.text:_isr:msp_lea_isr)
+                  000068ac    00000020     rts430x_lc_ld_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs_mpu)
+                  000068cc    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
 
 .bss       0    00001c00    00000286     UNINITIALIZED
                   00001c00    00000232     (.common:sdCardLib)
@@ -140,7 +141,7 @@ section   page    origin      length       input sections
                   00002b60    00000004     rts430x_lc_ld_eabi.lib : boot.c.obj (.stack)
                   00002b64    0000009c     --HOLE--
 
-.text      0    00004000    00002890     
+.text      0    00004000    00002888     
                   00004000    000005be     ff.obj (.text:chk_mounted)
                   000045be    00000214     ff.obj (.text:f_open)
                   000047d2    000001f6     ff.obj (.text:f_read)
@@ -153,81 +154,81 @@ section   page    origin      length       input sections
                   0000525c    00000120     ff.obj (.text:create_chain)
                   0000537c    000000fe     ff.obj (.text:dir_sdi)
                   0000547a    000000f4     mmc.obj (.text:disk_ioctl)
-                  0000556e    000000c4     SDCardLogMode.obj (.text:readSD_data16)
-                  00005632    000000c0     mmc.obj (.text:disk_write)
-                  000056f2    000000be     ff.obj (.text:check_fs)
-                  000057b0    000000be     ff.obj (.text:move_window)
-                  0000586e    000000b4     ff.obj (.text:follow_path)
-                  00005922    000000b4     mmc.obj (.text:send_cmd)
-                  000059d6    000000a0     init.obj (.text:init_gpio)
-                  00005a76    0000009c     ff.obj (.text:remove_chain)
-                  00005b12    00000098     rtc_c.obj (.text:RTC_C_getCalendarTime)
-                  00005baa    00000096     mmc.obj (.text:disk_read)
-                  00005c40    00000094     ff.obj (.text:f_sync)
-                  00005cd4    0000008a     HAL_SDCard.obj (.text:SDCard_init)
-                  00005d5e    00000086     rtc_c.obj (.text:RTC_C_initCalendar)
-                  00005de4    00000084     ff.obj (.text:dir_register)
-                  00005e68    00000078     rts430x_lc_ld_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
-                  00005ee0    00000076                            : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00005f56    00000072     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionInputPin)
-                  00005fc8    00000072     mmc.obj (.text:get_fattime)
-                  0000603a    00000070     mmc.obj (.text:rcvr_datablock)
-                  000060aa    00000062     HAL_SDCard.obj (.text:SDCard_readFrame)
-                  0000610c    0000005a     ff.obj (.text:dir_find)
-                  00006166    00000058     rts430x_lc_ld_eabi.lib : div32u.asm.obj (.text)
-                  000061be    00000058     mmc.obj (.text:xmit_datablock)
-                  00006216    00000056     eusci_b_spi.obj (.text:EUSCI_B_SPI_initMaster)
-                  0000626c    00000054     mmc.obj (.text:wait_ready)
-                  000062c0    0000004e     HAL_SDCard.obj (.text:SDCard_sendFrame)
-                  0000630e    0000004a     gpio.obj (.text:GPIO_setAsInputPinWithPullUpResistor)
-                  00006358    00000046     HAL_SDCard.obj (.text:SDCard_fastMode)
-                  0000639e    0000003e     ff.obj (.text:clust2sect)
-                  000063dc    0000003e     rts430x_lc_ld_eabi.lib : asr32.asm.obj (.text:l_asr_const)
-                  0000641a    0000003e                            : lsl32.asm.obj (.text:l_lsl_const)
-                  00006458    0000003e                            : lsr32.asm.obj (.text:l_lsr_const)
-                  00006496    0000003c                            : memcpy.c.obj (.text:memcpy)
-                  000064d2    00000038     main.obj (.text:main)
-                  0000650a    00000034     gpio.obj (.text:GPIO_setAsOutputPin)
-                  0000653e    00000032     ff.obj (.text:f_mount)
-                  00006570    0000002e     eusci_b_spi.obj (.text:EUSCI_B_SPI_changeMasterClock)
-                  0000659e    0000002c     MSPMPU_INIT_LIB_CCS_msp430_large_code_large_data.lib : mpu_init.o (.text:__mpu_init)
-                  000065ca    0000002c     ff.obj (.text:validate)
-                  000065f6    00000026     mmc.obj (.text:disk_status)
-                  0000661c    00000024     HAL_SDCard.obj (.text:SDCard_detectCard)
-                  00006640    00000024     rts430x_lc_ld_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  00006664    00000024                            : mult32_f5hw.asm.obj (.text)
-                  00006688    00000020     mmc.obj (.text:select)
-                  000066a8    0000001e     rtc_c.obj (.text:RTC_C_startClock)
-                  000066c6    0000001c     gpio.obj (.text:GPIO_getInputPinValue)
-                  000066e2    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
-                  000066fe    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
-                  0000671a    0000001a     sdcard.obj (.text:SDCardLib_init)
-                  00006734    0000001a     mmc.obj (.text:deselect)
-                  0000674e    00000016     HAL_SDCard.obj (.text:SDCard_setRTCTime)
-                  00006764    00000016     ff.obj (.text:chk_chr)
-                  0000677a    00000016     rts430x_lc_ld_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  00006790    00000016     ff.obj (.text:f_close)
-                  000067a6    00000014     ff.obj (.text:mem_cmp)
-                  000067ba    00000012     ff.obj (.text:mem_cpy)
-                  000067cc    00000012     ff.obj (.text:mem_set)
-                  000067de    00000012     rts430x_lc_ld_eabi.lib : strcpy.c.obj (.text:strcpy)
-                  000067f0    00000010                            : lsl32.asm.obj (.text:l_lsl)
-                  00006800    0000000e     eusci_b_spi.obj (.text:EUSCI_B_SPI_clearInterrupt)
-                  0000680e    0000000c     eusci_b_spi.obj (.text:EUSCI_B_SPI_transmitData)
-                  0000681a    0000000c     mmc.obj (.text:rcvr_mmc)
-                  00006826    0000000c     mmc.obj (.text:xmit_mmc)
-                  00006832    0000000a     eusci_b_spi.obj (.text:EUSCI_B_SPI_getInterruptStatus)
-                  0000683c    0000000a     eusci_b_spi.obj (.text:EUSCI_B_SPI_isBusy)
-                  00006846    0000000a     eusci_b_spi.obj (.text:EUSCI_B_SPI_receiveData)
-                  00006850    0000000a     sdcard.obj (.text:SDCardLib_unInit)
-                  0000685a    0000000a     HAL_SDCard.obj (.text:SDCard_getRTCTime)
-                  00006864    0000000a     HAL_SDCard.obj (.text:SDCard_setCSHigh)
-                  0000686e    0000000a     HAL_SDCard.obj (.text:SDCard_setCSLow)
-                  00006878    00000006     eusci_b_spi.obj (.text:EUSCI_B_SPI_enable)
-                  0000687e    00000006     rts430x_lc_ld_eabi.lib : exit.c.obj (.text:abort)
-                  00006884    00000006     mmc.obj (.text:disk_initCallBack)
-                  0000688a    00000004     rts430x_lc_ld_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  0000688e    00000002                            : startup.c.obj (.text:_system_post_cinit)
+                  0000556e    000000c0     mmc.obj (.text:disk_write)
+                  0000562e    000000be     ff.obj (.text:check_fs)
+                  000056ec    000000be     ff.obj (.text:move_window)
+                  000057aa    000000be     SDCardLogMode.obj (.text:readSD_data16)
+                  00005868    000000b4     ff.obj (.text:follow_path)
+                  0000591c    000000b4     mmc.obj (.text:send_cmd)
+                  000059d0    000000a0     init.obj (.text:init_gpio)
+                  00005a70    0000009c     ff.obj (.text:remove_chain)
+                  00005b0c    00000098     rtc_c.obj (.text:RTC_C_getCalendarTime)
+                  00005ba4    00000096     mmc.obj (.text:disk_read)
+                  00005c3a    00000094     ff.obj (.text:f_sync)
+                  00005cce    0000008a     HAL_SDCard.obj (.text:SDCard_init)
+                  00005d58    00000086     rtc_c.obj (.text:RTC_C_initCalendar)
+                  00005dde    00000084     ff.obj (.text:dir_register)
+                  00005e62    00000078     rts430x_lc_ld_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
+                  00005eda    00000076                            : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00005f50    00000072     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionInputPin)
+                  00005fc2    00000072     mmc.obj (.text:get_fattime)
+                  00006034    00000070     mmc.obj (.text:rcvr_datablock)
+                  000060a4    00000062     HAL_SDCard.obj (.text:SDCard_readFrame)
+                  00006106    0000005a     ff.obj (.text:dir_find)
+                  00006160    00000058     rts430x_lc_ld_eabi.lib : div32u.asm.obj (.text)
+                  000061b8    00000058     mmc.obj (.text:xmit_datablock)
+                  00006210    00000056     eusci_b_spi.obj (.text:EUSCI_B_SPI_initMaster)
+                  00006266    00000054     mmc.obj (.text:wait_ready)
+                  000062ba    0000004e     HAL_SDCard.obj (.text:SDCard_sendFrame)
+                  00006308    0000004a     gpio.obj (.text:GPIO_setAsInputPinWithPullUpResistor)
+                  00006352    00000046     HAL_SDCard.obj (.text:SDCard_fastMode)
+                  00006398    0000003e     ff.obj (.text:clust2sect)
+                  000063d6    0000003e     rts430x_lc_ld_eabi.lib : asr32.asm.obj (.text:l_asr_const)
+                  00006414    0000003e                            : lsl32.asm.obj (.text:l_lsl_const)
+                  00006452    0000003e                            : lsr32.asm.obj (.text:l_lsr_const)
+                  00006490    0000003c                            : memcpy.c.obj (.text:memcpy)
+                  000064cc    00000036     main.obj (.text:main)
+                  00006502    00000034     gpio.obj (.text:GPIO_setAsOutputPin)
+                  00006536    00000032     ff.obj (.text:f_mount)
+                  00006568    0000002e     eusci_b_spi.obj (.text:EUSCI_B_SPI_changeMasterClock)
+                  00006596    0000002c     MSPMPU_INIT_LIB_CCS_msp430_large_code_large_data.lib : mpu_init.o (.text:__mpu_init)
+                  000065c2    0000002c     ff.obj (.text:validate)
+                  000065ee    00000026     mmc.obj (.text:disk_status)
+                  00006614    00000024     HAL_SDCard.obj (.text:SDCard_detectCard)
+                  00006638    00000024     rts430x_lc_ld_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  0000665c    00000024                            : mult32_f5hw.asm.obj (.text)
+                  00006680    00000020     mmc.obj (.text:select)
+                  000066a0    0000001e     rtc_c.obj (.text:RTC_C_startClock)
+                  000066be    0000001c     gpio.obj (.text:GPIO_getInputPinValue)
+                  000066da    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
+                  000066f6    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
+                  00006712    0000001a     sdcard.obj (.text:SDCardLib_init)
+                  0000672c    0000001a     mmc.obj (.text:deselect)
+                  00006746    00000016     HAL_SDCard.obj (.text:SDCard_setRTCTime)
+                  0000675c    00000016     ff.obj (.text:chk_chr)
+                  00006772    00000016     rts430x_lc_ld_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00006788    00000016     ff.obj (.text:f_close)
+                  0000679e    00000014     ff.obj (.text:mem_cmp)
+                  000067b2    00000012     ff.obj (.text:mem_cpy)
+                  000067c4    00000012     ff.obj (.text:mem_set)
+                  000067d6    00000012     rts430x_lc_ld_eabi.lib : strcpy.c.obj (.text:strcpy)
+                  000067e8    00000010                            : lsl32.asm.obj (.text:l_lsl)
+                  000067f8    0000000e     eusci_b_spi.obj (.text:EUSCI_B_SPI_clearInterrupt)
+                  00006806    0000000c     eusci_b_spi.obj (.text:EUSCI_B_SPI_transmitData)
+                  00006812    0000000c     mmc.obj (.text:rcvr_mmc)
+                  0000681e    0000000c     mmc.obj (.text:xmit_mmc)
+                  0000682a    0000000a     eusci_b_spi.obj (.text:EUSCI_B_SPI_getInterruptStatus)
+                  00006834    0000000a     eusci_b_spi.obj (.text:EUSCI_B_SPI_isBusy)
+                  0000683e    0000000a     eusci_b_spi.obj (.text:EUSCI_B_SPI_receiveData)
+                  00006848    0000000a     sdcard.obj (.text:SDCardLib_unInit)
+                  00006852    0000000a     HAL_SDCard.obj (.text:SDCard_getRTCTime)
+                  0000685c    0000000a     HAL_SDCard.obj (.text:SDCard_setCSHigh)
+                  00006866    0000000a     HAL_SDCard.obj (.text:SDCard_setCSLow)
+                  00006870    00000006     eusci_b_spi.obj (.text:EUSCI_B_SPI_enable)
+                  00006876    00000006     rts430x_lc_ld_eabi.lib : exit.c.obj (.text:abort)
+                  0000687c    00000006     mmc.obj (.text:disk_initCallBack)
+                  00006882    00000004     rts430x_lc_ld_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  00006886    00000002                            : startup.c.obj (.text:_system_post_cinit)
 
 LEA        0    0000ffb4    00000002     
                   0000ffb4    00000002     msp_lea_isr.obj (.int18)
@@ -355,13 +356,13 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_ld_eabi.lib : boot.c.obj (.reset)
 
-.const     0    000068dc    00000066     
-                  000068dc    0000001f     main.obj (.const:.string:$P$T0$1)
-                  000068fb    00000001     --HOLE-- [fill = 0]
-                  000068fc    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
-                  00006918    00000012     HAL_SDCard.obj (.const:$P$T0$1)
-                  0000692a    00000010     ff.obj (.const:.string)
-                  0000693a    00000008     HAL_SDCard.obj (.const:$P$T1$2)
+.const     0    000068d4    00000066     
+                  000068d4    0000001f     main.obj (.const:.string:$P$T0$1)
+                  000068f3    00000001     --HOLE-- [fill = 0]
+                  000068f4    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
+                  00006910    00000012     HAL_SDCard.obj (.const:$P$T0$1)
+                  00006922    00000010     ff.obj (.const:.string)
+                  00006932    00000008     HAL_SDCard.obj (.const:$P$T1$2)
 
 $fill000   0    0000ff80    00000004     
                   0000ff80    00000004     --HOLE-- [fill = ffff]
@@ -377,11 +378,11 @@ MODULE SUMMARY
        Module                       code    ro data   rw data
        ------                       ----    -------   -------
     ./
-       SDCardLogMode.obj            196     0         632    
-       main.obj                     56      31        200    
+       SDCardLogMode.obj            190     0         632    
+       main.obj                     54      31        200    
        init.obj                     160     0         0      
     +--+----------------------------+-------+---------+---------+
-       Total:                       412     31        832    
+       Total:                       404     31        832    
                                                              
     ./DSPLib/source/lea/
        msp_lea_isr.obj              36      2         0      
@@ -474,21 +475,21 @@ MODULE SUMMARY
        Total:                       752     74        0      
                                                              
        Stack:                       0       0         160    
-       Linker Generated:            0       86        0      
+       Linker Generated:            0       85        0      
     +--+----------------------------+-------+---------+---------+
-       Grand Total:                 10460   263       1047   
+       Grand Total:                 10452   262       1047   
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00006988 records: 2, size/record: 8, table size: 16
-	.data: load addr=00006942, load size=00000034 bytes, run addr=00001e86, run size=000000f2 bytes, compression=lzss
-	.bss: load addr=00006982, load size=00000006 bytes, run addr=00001c00, run size=00000286 bytes, compression=zero_init
+__TI_cinit_table @ 00006980 records: 2, size/record: 8, table size: 16
+	.data: load addr=0000693a, load size=00000033 bytes, run addr=00001e86, run size=000000f2 bytes, compression=lzss
+	.bss: load addr=0000697a, load size=00000006 bytes, run addr=00001c00, run size=00000286 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00006976 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 0000696e records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -759,7 +760,7 @@ address   name
 000004bc  BIN2BCD                                   
 000004bd  BIN2BCD_H                                 
 000004bc  BIN2BCD_L                                 
-0000687e  C$$EXIT                                   
+00006876  C$$EXIT                                   
 0000043e  CAPTIO0CTL                                
 0000043f  CAPTIO0CTL_H                              
 0000043e  CAPTIO0CTL_L                              
@@ -940,14 +941,14 @@ address   name
 0000050e  DMAIV                                     
 0000050f  DMAIV_H                                   
 0000050e  DMAIV_L                                   
-00006570  EUSCI_B_SPI_changeMasterClock             
-00006800  EUSCI_B_SPI_clearInterrupt                
-00006878  EUSCI_B_SPI_enable                        
-00006832  EUSCI_B_SPI_getInterruptStatus            
-00006216  EUSCI_B_SPI_initMaster                    
-0000683c  EUSCI_B_SPI_isBusy                        
-00006846  EUSCI_B_SPI_receiveData                   
-0000680e  EUSCI_B_SPI_transmitData                  
+00006568  EUSCI_B_SPI_changeMasterClock             
+000067f8  EUSCI_B_SPI_clearInterrupt                
+00006870  EUSCI_B_SPI_enable                        
+0000682a  EUSCI_B_SPI_getInterruptStatus            
+00006210  EUSCI_B_SPI_initMaster                    
+00006834  EUSCI_B_SPI_isBusy                        
+0000683e  EUSCI_B_SPI_receiveData                   
+00006806  EUSCI_B_SPI_transmitData                  
 00000140  FRCTL0                                    
 00000141  FRCTL0_H                                  
 00000140  FRCTL0_L                                  
@@ -957,12 +958,12 @@ address   name
 00000146  GCCTL1                                    
 00000147  GCCTL1_H                                  
 00000146  GCCTL1_L                                  
-000066c6  GPIO_getInputPinValue                     
-0000630e  GPIO_setAsInputPinWithPullUpResistor      
-0000650a  GPIO_setAsOutputPin                       
-00005f56  GPIO_setAsPeripheralModuleFunctionInputPin
-000066e2  GPIO_setOutputHighOnPin                   
-000066fe  GPIO_setOutputLowOnPin                    
+000066be  GPIO_getInputPinValue                     
+00006308  GPIO_setAsInputPinWithPullUpResistor      
+00006502  GPIO_setAsOutputPin                       
+00005f50  GPIO_setAsPeripheralModuleFunctionInputPin
+000066da  GPIO_setOutputHighOnPin                   
+000066f6  GPIO_setOutputLowOnPin                    
 00000a80  LEACAP                                    
 00000a82  LEACAPH                                   
 00000a80  LEACAPL                                   
@@ -1473,20 +1474,20 @@ address   name
 000004b6  RTCYEAR                                   
 000004b7  RTCYEAR_H                                 
 000004b6  RTCYEAR_L                                 
-00005b12  RTC_C_getCalendarTime                     
-00005d5e  RTC_C_initCalendar                        
-000066a8  RTC_C_startClock                          
-0000671a  SDCardLib_init                            
-00006850  SDCardLib_unInit                          
-0000661c  SDCard_detectCard                         
-00006358  SDCard_fastMode                           
-0000685a  SDCard_getRTCTime                         
-00005cd4  SDCard_init                               
-000060aa  SDCard_readFrame                          
-000062c0  SDCard_sendFrame                          
-00006864  SDCard_setCSHigh                          
-0000686e  SDCard_setCSLow                           
-0000674e  SDCard_setRTCTime                         
+00005b0c  RTC_C_getCalendarTime                     
+00005d58  RTC_C_initCalendar                        
+000066a0  RTC_C_startClock                          
+00006712  SDCardLib_init                            
+00006848  SDCardLib_unInit                          
+00006614  SDCard_detectCard                         
+00006352  SDCard_fastMode                           
+00006852  SDCard_getRTCTime                         
+00005cce  SDCard_init                               
+000060a4  SDCard_readFrame                          
+000062ba  SDCard_sendFrame                          
+0000685c  SDCard_setCSHigh                          
+00006866  SDCard_setCSLow                           
+00006746  SDCard_setRTCTime                         
 00000100  SFRIE1                                    
 00000101  SFRIE1_H                                  
 00000100  SFRIE1_L                                  
@@ -2071,14 +2072,14 @@ address   name
 0000015c  WDTCTL_L                                  
 00002c00  __STACK_END                               
 000000a0  __STACK_SIZE                              
-00006988  __TI_CINIT_Base                           
-00006998  __TI_CINIT_Limit                          
-00006976  __TI_Handler_Table_Base                   
-00006982  __TI_Handler_Table_Limit                  
-000068d4  __TI_ISR_TRAP                             
-00005e68  __TI_auto_init_nobinit_nopinit_hold_wdt   
-00005ee0  __TI_decompress_lzss                      
-0000677a  __TI_decompress_none                      
+00006980  __TI_CINIT_Base                           
+00006990  __TI_CINIT_Limit                          
+0000696e  __TI_Handler_Table_Base                   
+0000697a  __TI_Handler_Table_Limit                  
+000068cc  __TI_ISR_TRAP                             
+00005e62  __TI_auto_init_nobinit_nopinit_hold_wdt   
+00005eda  __TI_decompress_lzss                      
+00006772  __TI_decompress_none                      
 0000ffb4  __TI_int18                                
 0000ffb6  __TI_int19                                
 0000ffb8  __TI_int20                                
@@ -2119,97 +2120,97 @@ address   name
 ffffffff  __TI_pprof_out_hndl                       
 ffffffff  __TI_prof_data_size                       
 ffffffff  __TI_prof_data_start                      
-00006640  __TI_zero_init_nomemset                   
+00006638  __TI_zero_init_nomemset                   
 ffffffff  __c_args__                                
 00000001  __mpu_enable                              
-0000659e  __mpu_init                                
-00006166  __mspabi_divul                            
-00006664  __mspabi_mpyl_f5hw                        
-00006166  __mspabi_remul                            
-000067f0  __mspabi_slll                             
-00006452  __mspabi_slll_1                           
-0000642e  __mspabi_slll_10                          
-0000642a  __mspabi_slll_11                          
-00006426  __mspabi_slll_12                          
-00006422  __mspabi_slll_13                          
-0000641e  __mspabi_slll_14                          
-0000641a  __mspabi_slll_15                          
-0000644e  __mspabi_slll_2                           
-0000644a  __mspabi_slll_3                           
-00006446  __mspabi_slll_4                           
-00006442  __mspabi_slll_5                           
-0000643e  __mspabi_slll_6                           
-0000643a  __mspabi_slll_7                           
-00006436  __mspabi_slll_8                           
-00006432  __mspabi_slll_9                           
-00006414  __mspabi_sral_1                           
-000063f0  __mspabi_sral_10                          
-000063ec  __mspabi_sral_11                          
-000063e8  __mspabi_sral_12                          
-000063e4  __mspabi_sral_13                          
-000063e0  __mspabi_sral_14                          
-000063dc  __mspabi_sral_15                          
-00006410  __mspabi_sral_2                           
-0000640c  __mspabi_sral_3                           
-00006408  __mspabi_sral_4                           
-00006404  __mspabi_sral_5                           
-00006400  __mspabi_sral_6                           
-000063fc  __mspabi_sral_7                           
-000063f8  __mspabi_sral_8                           
-000063f4  __mspabi_sral_9                           
-00006490  __mspabi_srll_1                           
-0000646c  __mspabi_srll_10                          
-00006468  __mspabi_srll_11                          
-00006464  __mspabi_srll_12                          
-00006460  __mspabi_srll_13                          
-0000645c  __mspabi_srll_14                          
-00006458  __mspabi_srll_15                          
-0000648c  __mspabi_srll_2                           
-00006488  __mspabi_srll_3                           
-00006484  __mspabi_srll_4                           
-00006480  __mspabi_srll_5                           
-0000647c  __mspabi_srll_6                           
-00006478  __mspabi_srll_7                           
-00006474  __mspabi_srll_8                           
-00006470  __mspabi_srll_9                           
-000068b4  _c_int00_noargs_mpu                       
+00006596  __mpu_init                                
+00006160  __mspabi_divul                            
+0000665c  __mspabi_mpyl_f5hw                        
+00006160  __mspabi_remul                            
+000067e8  __mspabi_slll                             
+0000644c  __mspabi_slll_1                           
+00006428  __mspabi_slll_10                          
+00006424  __mspabi_slll_11                          
+00006420  __mspabi_slll_12                          
+0000641c  __mspabi_slll_13                          
+00006418  __mspabi_slll_14                          
+00006414  __mspabi_slll_15                          
+00006448  __mspabi_slll_2                           
+00006444  __mspabi_slll_3                           
+00006440  __mspabi_slll_4                           
+0000643c  __mspabi_slll_5                           
+00006438  __mspabi_slll_6                           
+00006434  __mspabi_slll_7                           
+00006430  __mspabi_slll_8                           
+0000642c  __mspabi_slll_9                           
+0000640e  __mspabi_sral_1                           
+000063ea  __mspabi_sral_10                          
+000063e6  __mspabi_sral_11                          
+000063e2  __mspabi_sral_12                          
+000063de  __mspabi_sral_13                          
+000063da  __mspabi_sral_14                          
+000063d6  __mspabi_sral_15                          
+0000640a  __mspabi_sral_2                           
+00006406  __mspabi_sral_3                           
+00006402  __mspabi_sral_4                           
+000063fe  __mspabi_sral_5                           
+000063fa  __mspabi_sral_6                           
+000063f6  __mspabi_sral_7                           
+000063f2  __mspabi_sral_8                           
+000063ee  __mspabi_sral_9                           
+0000648a  __mspabi_srll_1                           
+00006466  __mspabi_srll_10                          
+00006462  __mspabi_srll_11                          
+0000645e  __mspabi_srll_12                          
+0000645a  __mspabi_srll_13                          
+00006456  __mspabi_srll_14                          
+00006452  __mspabi_srll_15                          
+00006486  __mspabi_srll_2                           
+00006482  __mspabi_srll_3                           
+0000647e  __mspabi_srll_4                           
+0000647a  __mspabi_srll_5                           
+00006476  __mspabi_srll_6                           
+00006472  __mspabi_srll_7                           
+0000646e  __mspabi_srll_8                           
+0000646a  __mspabi_srll_9                           
+000068ac  _c_int00_noargs_mpu                       
 0000fffe  _reset_vector                             
 00002b60  _stack                                    
-0000688e  _system_post_cinit                        
-0000688a  _system_pre_init                          
-0000687e  abort                                     
-0000639e  clust2sect                                
-00006884  disk_initCallBack                         
+00006886  _system_post_cinit                        
+00006882  _system_pre_init                          
+00006876  abort                                     
+00006398  clust2sect                                
+0000687c  disk_initCallBack                         
 000049c8  disk_initialize                           
 0000547a  disk_ioctl                                
-00005baa  disk_read                                 
-000065f6  disk_status                               
-00005632  disk_write                                
-00006790  f_close                                   
-0000653e  f_mount                                   
+00005ba4  disk_read                                 
+000065ee  disk_status                               
+0000556e  disk_write                                
+00006788  f_close                                   
+00006536  f_mount                                   
 000045be  f_open                                    
 000047d2  f_read                                    
-00005c40  f_sync                                    
+00005c3a  f_sync                                    
 00004000  fram_ipe_end                              
 00004000  fram_ipe_start                            
 00004000  fram_rw_start                             
 00004000  fram_rx_start                             
 00005126  get_fat                                   
-00005fc8  get_fattime                               
-000059d6  init_gpio                                 
-000064d2  main                                      
-00006496  memcpy                                    
+00005fc2  get_fattime                               
+000059d0  init_gpio                                 
+000064cc  main                                      
+00006490  memcpy                                    
 0000a501  mpu_ctl0_value                            
 00009b9d  mpu_sam_value                             
 00001000  mpu_segment_border1                       
 00001000  mpu_segment_border2                       
 00001e84  msp_lea_ifg                               
-00006890  msp_lea_isr                               
+00006888  msp_lea_isr                               
 00004e84  put_fat                                   
-0000556e  readSD_data16                             
+000057aa  readSD_data16                             
 00001c00  sdCardLib                                 
 00001f4e  sdIntf_MSP430FR5994LP                     
-000067de  strcpy                                    
+000067d6  strcpy                                    
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -3777,113 +3778,113 @@ address   name
 00004e84  put_fat                                   
 00005126  get_fat                                   
 0000547a  disk_ioctl                                
-0000556e  readSD_data16                             
-00005632  disk_write                                
-000059d6  init_gpio                                 
-00005b12  RTC_C_getCalendarTime                     
-00005baa  disk_read                                 
-00005c40  f_sync                                    
-00005cd4  SDCard_init                               
-00005d5e  RTC_C_initCalendar                        
-00005e68  __TI_auto_init_nobinit_nopinit_hold_wdt   
-00005ee0  __TI_decompress_lzss                      
-00005f56  GPIO_setAsPeripheralModuleFunctionInputPin
-00005fc8  get_fattime                               
-000060aa  SDCard_readFrame                          
-00006166  __mspabi_divul                            
-00006166  __mspabi_remul                            
-00006216  EUSCI_B_SPI_initMaster                    
-000062c0  SDCard_sendFrame                          
-0000630e  GPIO_setAsInputPinWithPullUpResistor      
-00006358  SDCard_fastMode                           
-0000639e  clust2sect                                
-000063dc  __mspabi_sral_15                          
-000063e0  __mspabi_sral_14                          
-000063e4  __mspabi_sral_13                          
-000063e8  __mspabi_sral_12                          
-000063ec  __mspabi_sral_11                          
-000063f0  __mspabi_sral_10                          
-000063f4  __mspabi_sral_9                           
-000063f8  __mspabi_sral_8                           
-000063fc  __mspabi_sral_7                           
-00006400  __mspabi_sral_6                           
-00006404  __mspabi_sral_5                           
-00006408  __mspabi_sral_4                           
-0000640c  __mspabi_sral_3                           
-00006410  __mspabi_sral_2                           
-00006414  __mspabi_sral_1                           
-0000641a  __mspabi_slll_15                          
-0000641e  __mspabi_slll_14                          
-00006422  __mspabi_slll_13                          
-00006426  __mspabi_slll_12                          
-0000642a  __mspabi_slll_11                          
-0000642e  __mspabi_slll_10                          
-00006432  __mspabi_slll_9                           
-00006436  __mspabi_slll_8                           
-0000643a  __mspabi_slll_7                           
-0000643e  __mspabi_slll_6                           
-00006442  __mspabi_slll_5                           
-00006446  __mspabi_slll_4                           
-0000644a  __mspabi_slll_3                           
-0000644e  __mspabi_slll_2                           
-00006452  __mspabi_slll_1                           
-00006458  __mspabi_srll_15                          
-0000645c  __mspabi_srll_14                          
-00006460  __mspabi_srll_13                          
-00006464  __mspabi_srll_12                          
-00006468  __mspabi_srll_11                          
-0000646c  __mspabi_srll_10                          
-00006470  __mspabi_srll_9                           
-00006474  __mspabi_srll_8                           
-00006478  __mspabi_srll_7                           
-0000647c  __mspabi_srll_6                           
-00006480  __mspabi_srll_5                           
-00006484  __mspabi_srll_4                           
-00006488  __mspabi_srll_3                           
-0000648c  __mspabi_srll_2                           
-00006490  __mspabi_srll_1                           
-00006496  memcpy                                    
-000064d2  main                                      
-0000650a  GPIO_setAsOutputPin                       
-0000653e  f_mount                                   
-00006570  EUSCI_B_SPI_changeMasterClock             
-0000659e  __mpu_init                                
-000065f6  disk_status                               
-0000661c  SDCard_detectCard                         
-00006640  __TI_zero_init_nomemset                   
-00006664  __mspabi_mpyl_f5hw                        
-000066a8  RTC_C_startClock                          
-000066c6  GPIO_getInputPinValue                     
-000066e2  GPIO_setOutputHighOnPin                   
-000066fe  GPIO_setOutputLowOnPin                    
-0000671a  SDCardLib_init                            
-0000674e  SDCard_setRTCTime                         
-0000677a  __TI_decompress_none                      
-00006790  f_close                                   
-000067de  strcpy                                    
-000067f0  __mspabi_slll                             
-00006800  EUSCI_B_SPI_clearInterrupt                
-0000680e  EUSCI_B_SPI_transmitData                  
-00006832  EUSCI_B_SPI_getInterruptStatus            
-0000683c  EUSCI_B_SPI_isBusy                        
-00006846  EUSCI_B_SPI_receiveData                   
-00006850  SDCardLib_unInit                          
-0000685a  SDCard_getRTCTime                         
-00006864  SDCard_setCSHigh                          
-0000686e  SDCard_setCSLow                           
-00006878  EUSCI_B_SPI_enable                        
-0000687e  C$$EXIT                                   
-0000687e  abort                                     
-00006884  disk_initCallBack                         
-0000688a  _system_pre_init                          
-0000688e  _system_post_cinit                        
-00006890  msp_lea_isr                               
-000068b4  _c_int00_noargs_mpu                       
-000068d4  __TI_ISR_TRAP                             
-00006976  __TI_Handler_Table_Base                   
-00006982  __TI_Handler_Table_Limit                  
-00006988  __TI_CINIT_Base                           
-00006998  __TI_CINIT_Limit                          
+0000556e  disk_write                                
+000057aa  readSD_data16                             
+000059d0  init_gpio                                 
+00005b0c  RTC_C_getCalendarTime                     
+00005ba4  disk_read                                 
+00005c3a  f_sync                                    
+00005cce  SDCard_init                               
+00005d58  RTC_C_initCalendar                        
+00005e62  __TI_auto_init_nobinit_nopinit_hold_wdt   
+00005eda  __TI_decompress_lzss                      
+00005f50  GPIO_setAsPeripheralModuleFunctionInputPin
+00005fc2  get_fattime                               
+000060a4  SDCard_readFrame                          
+00006160  __mspabi_divul                            
+00006160  __mspabi_remul                            
+00006210  EUSCI_B_SPI_initMaster                    
+000062ba  SDCard_sendFrame                          
+00006308  GPIO_setAsInputPinWithPullUpResistor      
+00006352  SDCard_fastMode                           
+00006398  clust2sect                                
+000063d6  __mspabi_sral_15                          
+000063da  __mspabi_sral_14                          
+000063de  __mspabi_sral_13                          
+000063e2  __mspabi_sral_12                          
+000063e6  __mspabi_sral_11                          
+000063ea  __mspabi_sral_10                          
+000063ee  __mspabi_sral_9                           
+000063f2  __mspabi_sral_8                           
+000063f6  __mspabi_sral_7                           
+000063fa  __mspabi_sral_6                           
+000063fe  __mspabi_sral_5                           
+00006402  __mspabi_sral_4                           
+00006406  __mspabi_sral_3                           
+0000640a  __mspabi_sral_2                           
+0000640e  __mspabi_sral_1                           
+00006414  __mspabi_slll_15                          
+00006418  __mspabi_slll_14                          
+0000641c  __mspabi_slll_13                          
+00006420  __mspabi_slll_12                          
+00006424  __mspabi_slll_11                          
+00006428  __mspabi_slll_10                          
+0000642c  __mspabi_slll_9                           
+00006430  __mspabi_slll_8                           
+00006434  __mspabi_slll_7                           
+00006438  __mspabi_slll_6                           
+0000643c  __mspabi_slll_5                           
+00006440  __mspabi_slll_4                           
+00006444  __mspabi_slll_3                           
+00006448  __mspabi_slll_2                           
+0000644c  __mspabi_slll_1                           
+00006452  __mspabi_srll_15                          
+00006456  __mspabi_srll_14                          
+0000645a  __mspabi_srll_13                          
+0000645e  __mspabi_srll_12                          
+00006462  __mspabi_srll_11                          
+00006466  __mspabi_srll_10                          
+0000646a  __mspabi_srll_9                           
+0000646e  __mspabi_srll_8                           
+00006472  __mspabi_srll_7                           
+00006476  __mspabi_srll_6                           
+0000647a  __mspabi_srll_5                           
+0000647e  __mspabi_srll_4                           
+00006482  __mspabi_srll_3                           
+00006486  __mspabi_srll_2                           
+0000648a  __mspabi_srll_1                           
+00006490  memcpy                                    
+000064cc  main                                      
+00006502  GPIO_setAsOutputPin                       
+00006536  f_mount                                   
+00006568  EUSCI_B_SPI_changeMasterClock             
+00006596  __mpu_init                                
+000065ee  disk_status                               
+00006614  SDCard_detectCard                         
+00006638  __TI_zero_init_nomemset                   
+0000665c  __mspabi_mpyl_f5hw                        
+000066a0  RTC_C_startClock                          
+000066be  GPIO_getInputPinValue                     
+000066da  GPIO_setOutputHighOnPin                   
+000066f6  GPIO_setOutputLowOnPin                    
+00006712  SDCardLib_init                            
+00006746  SDCard_setRTCTime                         
+00006772  __TI_decompress_none                      
+00006788  f_close                                   
+000067d6  strcpy                                    
+000067e8  __mspabi_slll                             
+000067f8  EUSCI_B_SPI_clearInterrupt                
+00006806  EUSCI_B_SPI_transmitData                  
+0000682a  EUSCI_B_SPI_getInterruptStatus            
+00006834  EUSCI_B_SPI_isBusy                        
+0000683e  EUSCI_B_SPI_receiveData                   
+00006848  SDCardLib_unInit                          
+00006852  SDCard_getRTCTime                         
+0000685c  SDCard_setCSHigh                          
+00006866  SDCard_setCSLow                           
+00006870  EUSCI_B_SPI_enable                        
+00006876  C$$EXIT                                   
+00006876  abort                                     
+0000687c  disk_initCallBack                         
+00006882  _system_pre_init                          
+00006886  _system_post_cinit                        
+00006888  msp_lea_isr                               
+000068ac  _c_int00_noargs_mpu                       
+000068cc  __TI_ISR_TRAP                             
+0000696e  __TI_Handler_Table_Base                   
+0000697a  __TI_Handler_Table_Limit                  
+00006980  __TI_CINIT_Base                           
+00006990  __TI_CINIT_Limit                          
 00009b9d  mpu_sam_value                             
 0000a501  mpu_ctl0_value                            
 0000ffb4  __TI_int18                                

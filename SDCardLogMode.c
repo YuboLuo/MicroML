@@ -50,6 +50,7 @@ static FIL fil;        /* File object */
 static char filename[31];
 static FRESULT rc;
 
+
 int16_t *writeSD_data16(int16_t *buffer, char *f_name, uint16_t length){
     uint16_t bw = 0;
 
@@ -76,7 +77,8 @@ int16_t *writeSD_data16(int16_t *buffer, char *f_name, uint16_t length){
     return buffer;
 }
 
-int16_t *readSD_data16(int16_t *buffer, char *f_name, uint16_t offset, uint16_t length){
+int16_t *readSD_data16(int16_t *buffer, char *f_name, uint16_t length){
+
     uint16_t br = 0;
 
     GPIO_setOutputHighOnPin(GPIO_PORT_P3, GPIO_PIN7);
@@ -98,7 +100,7 @@ int16_t *readSD_data16(int16_t *buffer, char *f_name, uint16_t offset, uint16_t 
         return buffer;
     }
 
-    rc = f_read(&fil, (char *) buffer + sizeof(int16_t) * offset, sizeof(int16_t) * length, &br); // read 60KB data, 16bit, it can read at maximum 65535bytes at a time
+    rc = f_read(&fil, (char *) buffer, sizeof(int16_t) * length, &br); // read 60KB data, 16bit, it can read at maximum 65535bytes at a time
     if(rc){
         f_close(&fil);
         SDCardLib_unInit(&sdCardLib);
